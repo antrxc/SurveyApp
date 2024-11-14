@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.example.surveyapplication.ui.theme.SurveyApplicationTheme
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 class RegisterActivity : ComponentActivity() {
     private lateinit var databaseHelper: UserDatabaseHelper
@@ -29,38 +30,37 @@ class RegisterActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         databaseHelper = UserDatabaseHelper(this)
         setContent {
-
-                    RegistrationScreen(this,databaseHelper)
-
+            RegistrationScreen(this, databaseHelper)
         }
     }
 }
 
 @Composable
 fun RegistrationScreen(context: Context, databaseHelper: UserDatabaseHelper) {
-
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.White),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-        Image(painterResource(id = R.drawable.survey_signup), contentDescription = "")
+        Image(painterResource(id = R.drawable.survey_signup), contentDescription = "", modifier = Modifier.size(150.dp))
 
         Text(
             fontSize = 36.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.Cursive,
-            color = Color(0xFF25b897),
+            color = Color(0xFF1976D2),  // Blue color for heading
             text = "Register"
         )
 
         Spacer(modifier = Modifier.height(10.dp))
+
         TextField(
             value = username,
             onValueChange = { username = it },
@@ -68,7 +68,6 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDatabaseHelper) {
             modifier = Modifier
                 .padding(10.dp)
                 .width(280.dp)
-
         )
 
         TextField(
@@ -90,7 +89,6 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDatabaseHelper) {
                 .width(280.dp)
         )
 
-
         if (error.isNotEmpty()) {
             Text(
                 text = error,
@@ -111,48 +109,31 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDatabaseHelper) {
                     )
                     databaseHelper.insertUser(user)
                     error = "User registered successfully"
-                    // Start LoginActivity using the current context
                     context.startActivity(
-                        Intent(
-                            context,
-                            LoginActivity::class.java
-                        )
+                        Intent(context, LoginActivity::class.java)
                     )
-
                 } else {
                     error = "Please fill all fields"
                 }
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF84adb8)),
-            modifier = Modifier.padding(top = 16.dp),
-
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1976D2)),  // Blue color for button
+            modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text(text = "Register")
+            Text(text = "Register", color = Color.White)  // White text color for button
         }
-        Spacer(modifier = Modifier.width(10.dp))
+
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row() {
-            Text(
-                modifier = Modifier.padding(top = 14.dp), text = "Have an account?"
-            )
+        Row(
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(modifier = Modifier.padding(top = 14.dp), text = "Have an account?")
             TextButton(onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        LoginActivity::class.java
-                    )
-                )
-            })
-
-            {
+                context.startActivity(Intent(context, LoginActivity::class.java))
+            }) {
                 Spacer(modifier = Modifier.width(10.dp))
-                Text( color = Color(0xFF25b897),text = "Log in")
+                Text(color = Color(0xFF1976D2), text = "Log in")  // Blue color for "Log in" text
             }
         }
     }
-}
-private fun startLoginActivity(context: Context) {
-    val intent = Intent(context, LoginActivity::class.java)
-    ContextCompat.startActivity(context, intent, null)
 }

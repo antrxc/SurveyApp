@@ -1,7 +1,6 @@
 package com.example.surveyapplication
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,24 +33,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun FormScreen(context: Context, databaseHelper: SurveyDatabaseHelper) {
 
-    Image(
-        painterResource(id = R.drawable.background), contentDescription = "",
-        alpha =0.1F,
-        contentScale = ContentScale.FillHeight,
-        modifier = Modifier.padding(top = 40.dp)
-        )
-
-
-
-
     // Define state for form fields
     var name by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var mobileNumber by remember { mutableStateOf("") }
-    var genderOptions = listOf("Male", "Female", "Other")
+    var genderOptions = listOf("Rarely", "Sometimes", "Frequently")
     var selectedGender by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
-    var diabeticsOptions = listOf("Diabetic", "Not Diabetic")
+    var diabeticsOptions = listOf("Yes", "No")
     var selectedDiabetics by remember { mutableStateOf("") }
 
     Column(
@@ -61,39 +50,57 @@ fun FormScreen(context: Context, databaseHelper: SurveyDatabaseHelper) {
     ) {
 
         Text(
-            fontSize = 36.sp,
+            fontSize = 25.sp,
             textAlign = TextAlign.Center,
-            text = "Survey on Diabetics",
-            color = Color(0xFF25b897)
+            text = "Survey on Sleep Patterns and Health",
+            color = Color(0xFF1976D2)  // Blue header color
         )
-        
-        Spacer(modifier = Modifier.height(24.dp))
 
-        Text(text = "Name :", fontSize = 20.sp)
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(text = "What is your full name?", fontSize = 15.sp, color = Color.Black)  // Black text color
         TextField(
             value = name,
             onValueChange = { name = it },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color(0xFFBBDEFB),
+                focusedIndicatorColor = Color(0xFF2196F3),
+                unfocusedIndicatorColor = Color(0xFF2196F3)
+            ),
+            modifier = Modifier.fillMaxWidth().padding(8.dp)
         )
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        Text(text = "Age :", fontSize = 20.sp)
+        Text(text = "What is your age?", fontSize = 15.sp, color = Color.Black)  // Black text color
         TextField(
             value = age,
             onValueChange = { age = it },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color(0xFFBBDEFB),
+                focusedIndicatorColor = Color(0xFF2196F3),
+                unfocusedIndicatorColor = Color(0xFF2196F3)
+            ),
+            modifier = Modifier.fillMaxWidth().padding(8.dp)
         )
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        Text(text = "Mobile Number :", fontSize = 20.sp)
+        Text(text = "Describe your current health condition.", fontSize = 15.sp, color = Color.Black)  // Black text color
         TextField(
             value = mobileNumber,
             onValueChange = { mobileNumber = it },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color(0xFFBBDEFB),
+                focusedIndicatorColor = Color(0xFF2196F3),
+                unfocusedIndicatorColor = Color(0xFF2196F3)
+            ),
+            modifier = Modifier.fillMaxWidth().padding(8.dp)
         )
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        Text(text = "Gender :", fontSize = 20.sp)
+        Text(text = "Trouble falling asleep?", fontSize = 15.sp, color = Color.Black)  // Black text color
         RadioGroup(
             options = genderOptions,
             selectedOption = selectedGender,
@@ -102,7 +109,7 @@ fun FormScreen(context: Context, databaseHelper: SurveyDatabaseHelper) {
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        Text(text = "Diabetics :", fontSize = 20.sp)
+        Text(text = "Consulted a doctor?", fontSize = 15.sp, color = Color.Black)  // Black text color
         RadioGroup(
             options = diabeticsOptions,
             selectedOption = selectedDiabetics,
@@ -114,31 +121,32 @@ fun FormScreen(context: Context, databaseHelper: SurveyDatabaseHelper) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        // Display Submit button
-        Button(
-            onClick = {  if (name.isNotEmpty() && age.isNotEmpty() && mobileNumber.isNotEmpty() && genderOptions.isNotEmpty() && diabeticsOptions.isNotEmpty()) {
-                val survey = Survey(
-                    id = null,
-                    name = name,
-                    age = age,
-                    mobileNumber = mobileNumber,
-                    gender = selectedGender,
-                    diabetics = selectedDiabetics
-                )
-                databaseHelper.insertSurvey(survey)
-                error = "Survey Completed"
 
-            } else {
-                error = "Please fill all fields"
-            }
+        Button(
+            onClick = {
+                if (name.isNotEmpty() && age.isNotEmpty() && mobileNumber.isNotEmpty() && selectedGender.isNotEmpty() && selectedDiabetics.isNotEmpty()) {
+                    val survey = Survey(
+                        id = null,
+                        name = name,
+                        age = age,
+                        mobileNumber = mobileNumber,
+                        gender = selectedGender,
+                        diabetics = selectedDiabetics
+                    )
+                    databaseHelper.insertSurvey(survey)
+                    error = "Survey Completed"
+                } else {
+                    error = "Please fill all fields"
+                }
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF84adb8)),
-            modifier = Modifier.padding(start = 70.dp).size(height = 60.dp, width = 200.dp)
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1976D2)),  // Blue button color
+            modifier = Modifier.padding(start = 70.dp).size(height = 35.dp, width = 200.dp)
         ) {
-            Text(text = "Submit")
+            Text(text = "Submit", color = Color.White)
         }
     }
 }
+
 @Composable
 fun RadioGroup(
     options: List<String>,
@@ -160,7 +168,8 @@ fun RadioGroup(
                     text = option,
                     style = MaterialTheme.typography.body1.merge(),
                     modifier = Modifier.padding(top = 10.dp),
-                    fontSize = 17.sp
+                    fontSize = 15.sp,
+                    color = Color.Black  // Black text color for options
                 )
             }
         }

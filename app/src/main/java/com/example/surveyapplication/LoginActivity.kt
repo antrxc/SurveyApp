@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.example.surveyapplication.ui.theme.SurveyApplicationTheme
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 class LoginActivity : ComponentActivity() {
     private lateinit var databaseHelper: UserDatabaseHelper
@@ -29,9 +30,7 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         databaseHelper = UserDatabaseHelper(this)
         setContent {
-
-                LoginScreen(this, databaseHelper)
-
+            LoginScreen(this, databaseHelper)
         }
     }
 }
@@ -55,7 +54,7 @@ fun LoginScreen(context: Context, databaseHelper: UserDatabaseHelper) {
             fontSize = 36.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.Cursive,
-            color = Color(0xFF25b897),
+            color = Color(0xFF1976D2),  // Blue color for heading
             text = "Login"
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -118,10 +117,10 @@ fun LoginScreen(context: Context, databaseHelper: UserDatabaseHelper) {
                     error = "Please fill all fields"
                 }
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF84adb8)),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1976D2)),  // Blue color for button
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text(text = "Login")
+            Text(text = "Login", color = Color.White)  // White text color for button
         }
         Row {
             TextButton(onClick = {context.startActivity(
@@ -129,19 +128,17 @@ fun LoginScreen(context: Context, databaseHelper: UserDatabaseHelper) {
                     context,
                     RegisterActivity::class.java
                 )
-            )}
-            )
-            { Text(color = Color(0xFF25b897),text = "Register") }
-            TextButton(onClick = {
-            })
-
-            {
+            )}) {
+                Text(color = Color(0xFF1976D2), text = "Register")  // Blue color for Register text
+            }
+            TextButton(onClick = {}) {
                 Spacer(modifier = Modifier.width(60.dp))
-                Text(color = Color(0xFF25b897),text = "Forget password?")
+                Text(color = Color(0xFF1976D2), text = "Forget password?")  // Blue color for Forget password text
             }
         }
     }
 }
+
 private fun startMainPage(context: Context) {
     val intent = Intent(context, MainActivity::class.java)
     ContextCompat.startActivity(context, intent, null)
