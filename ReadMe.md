@@ -50,4 +50,4 @@ To build and run the project, use the following commands:
 ./gradlew installDebug
 ```
 
-# [Demo Video](https://drive.google.com/file/d/1mP4xmj1ADjWwbkkns8rvG0xgohyNCdz0/view?usp=sharing)
+# [Demo Video](https://drive.google.com/file/d/1mP4xmj1ADjWwbkkns8rvG0xgohyNCdz0/view?usp=sharing) | [PPT](Naan_Mudhalvan_PPT.pdf)
